@@ -46,14 +46,21 @@ CMPE148-no-sleep--1/
 ├── src/
 │   ├── protocol.py          # Protocol message format and serialization
 │   ├── server.py            # Multi-threaded chat server
-│   └── client.py            # Reliable chat client
+│   ├── client.py            # Reliable chat client (terminal)
+│   └── client_gui.py        # GUI chat client (Tkinter)
 ├── tests/
 │   ├── test_protocol.py     # Unit tests for protocol
 │   ├── test_integration.py  # Integration tests
 │   └── stress_test.py       # Performance and stress tests
 ├── docs/
-│   └── PROTOCOL_SPECIFICATION.md  # Detailed protocol documentation
-└── README.md                # This file
+│   ├── PROTOCOL_SPECIFICATION.md  # Detailed protocol documentation
+│   ├── QUICK_START.md            # Getting started guide
+│   ├── WIRESHARK_ANALYSIS.md     # Network analysis guide
+│   ├── PROJECT_SUMMARY.md        # Complete project summary
+│   └── PRESENTATION_OUTLINE.md   # Presentation materials
+├── README.md                # This file
+├── CHECKLIST.md             # Pre-submission checklist
+└── run_tests.py             # Test runner script
 ```
 
 ## Features
@@ -74,6 +81,10 @@ CMPE148-no-sleep--1/
 - ✅ Connection state management
 - ✅ Keep-alive heartbeat mechanism
 - ✅ Graceful disconnection
+- ✅ **GUI Client** with Tkinter (graphical interface)
+- ✅ **Terminal Client** (command-line interface)
+- ✅ Color-coded messages in GUI
+- ✅ Real-time message display
 
 ## Installation and Setup
 
@@ -115,6 +126,61 @@ python src/server.py 8080 0.0.0.0
 
 ### Starting a Client
 
+#### Option 1: GUI Client (Graphical Interface) ⭐ RECOMMENDED
+
+**Launch the GUI:**
+```bash
+python src/client_gui.py
+```
+
+**Using the GUI:**
+1. **Enter Username**: Type your desired username (e.g., "Alice")
+2. **Server**: Use `127.0.0.1` for local server (default)
+3. **Port**: Use `5555` (default server port)
+4. **Click "Connect"**: Green button to connect
+
+**GUI Features:**
+- 🎨 Color-coded messages (self, others, broadcasts, private, system)
+- ✅ Visual connection status
+- 📝 Scrollable chat history
+- 💬 Easy message input with Enter key support
+- 🎯 Built-in command help (`/help`)
+
+**GUI Example:**
+```
+┌─────────────────────────────────────────────────┐
+│ CMPE 148 Chat - Team No Sleep            [×]  │
+├─────────────────────────────────────────────────┤
+│ Username: [Alice  ] Server: [127.0.0.1]        │
+│ Port: [5555] [Connect] ✓ Connected as Alice   │
+├─────────────────────────────────────────────────┤
+│ ✓ Connected to 127.0.0.1:5555                  │
+│ [BROADCAST] SERVER: Bob has joined the chat    │
+│ Bob: Hey everyone!                             │
+│ Alice: Hi Bob!                                 │
+│ [PRIVATE from Bob]: Secret message             │
+├─────────────────────────────────────────────────┤
+│ [Type message here...        ] [Send]          │
+└─────────────────────────────────────────────────┘
+```
+
+**Running Multiple GUI Clients:**
+```bash
+# Terminal 1: Start server
+python src/server.py
+
+# Terminal 2: First client (Alice)
+python src/client_gui.py
+
+# Terminal 3: Second client (Bob)
+python src/client_gui.py
+
+# Both GUI windows can now chat!
+```
+
+#### Option 2: Terminal Client (Command Line)
+
+**For command-line enthusiasts:**
 ```bash
 # Connect with username
 python src/client.py Alice
@@ -123,11 +189,12 @@ python src/client.py Alice
 python src/client.py Bob 127.0.0.1 8080
 ```
 
-**Client Commands:**
+**Client Commands (Both GUI and Terminal):**
 ```
 /broadcast <message>        # Send to all users
 /msg <username> <message>   # Send private message
 /quit                       # Disconnect and exit
+/help                       # Show available commands (GUI only)
 <message>                   # Regular chat message
 ```
 
